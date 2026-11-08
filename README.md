@@ -173,10 +173,10 @@ git push -u origin main
 
 
 
-    cd ~/QuietOps_Triage
+    cd ~/QuietOps_Triage/quietops-triage-2.1.1
     git init
-    git add inbox_triage.py tests/ scripts/ config.example.json \
-            deploy/ .github/ README.md CHANGELOG.md .gitignore
+    git add  tests/ scripts/ config.example.json \
+            deploy/ .github/ README.md CHANGELOG.md .gitignore inbox_triage.py
     git commit -m "QuietOps Triage v2.1.1"
 
     # On GitHub: create an empty repo named quietops-triage, then:
