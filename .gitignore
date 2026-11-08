@@ -1,10 +1,9 @@
 # --- security control, not housekeeping: never publish runtime data ---
 data/
-*.db
-*.db-wal
-*.db-shm
-.triage.lock
-config.json
-__pycache__/
-*.pyc
-.pytest_cache/
+    __pycache__/
+    *.pyc
+    .triage.lock
+    *.db
+    *.db-wal
+    *.db-shm
+    config.json
