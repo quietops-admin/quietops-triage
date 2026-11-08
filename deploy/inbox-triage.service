@@ -1,0 +1,38 @@
+# QuietOps Triage — systemd **user** service (always-on watch mode).
+#
+# Install (per user, no root needed):
+#   mkdir -p ~/.config/systemd/user
+#   cp deploy/inbox-triage.service ~/.config/systemd/user/
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now inbox-triage
+#   journalctl --user -u inbox-triage -f        # follow the log
+#
+# NOTE: if your distribution does not run a user manager (headless server
+# without lingering), run:  sudo loginctl enable-linger "$USER"
+
+[Unit]
+Description=QuietOps Triage — inbox watcher (static analysis, risk routing)
+After=local-fs.target
+
+[Service]
+Type=simple
+# Adjust to wherever you keep the project:
+WorkingDirectory=%h/inbox-triage
+ExecStart=/usr/bin/env python3 %h/inbox-triage/inbox_triage.py --root %h/inbox-triage/data --watch
+Restart=on-failure
+RestartSec=10
+
+# ---- hardening: the watcher analyzes hostile files; confine it ----
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/inbox-triage/data
+RestrictSUIDSGID=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=default.target

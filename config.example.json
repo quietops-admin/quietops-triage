@@ -1,0 +1,61 @@
+{
+  "max_input_bytes": 104857600,
+  "keep_analysis_copy": true,
+  "retention_days_analysis": 14,
+  "stability": {
+    "interval": 1.0,
+    "checks": 2
+  },
+  "ignore_patterns": [
+    "*.part",
+    "*.partial",
+    "*.crdownload",
+    "*.tmp",
+    "*.download",
+    ".DS_Store",
+    "*.swp",
+    "*~",
+    ".#*"
+  ],
+  "routing": {
+    "clean": "sorted",
+    "low": "sorted",
+    "medium": "review",
+    "high": "quarantine",
+    "workflow-failure": "errors"
+  },
+  "sort_rules": [
+    {
+      "match": [
+        "invoice-*",
+        "*.csv"
+      ],
+      "destination": "finance"
+    },
+    {
+      "match": "*.md",
+      "destination": "notes"
+    }
+  ],
+  "dedup": {
+    "enabled": true,
+    "action": "log"
+  },
+  "scanners": {
+    "clamav": true,
+    "shellcheck": false
+  },
+  "watch": {
+    "degraded_after": 3
+  },
+  "notifications": {
+    "enabled": true,
+    "min_severity": "medium"
+  },
+  "timeouts": {
+    "clamav": 120,
+    "bash": 30,
+    "shellcheck": 60,
+    "file": 15
+  }
+}
